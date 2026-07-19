@@ -126,28 +126,35 @@ export default function App() {
     }
   };
 
-  // Router Path State (Supporting /home, /home/commands / /commands, /home/status / /status, /home/admin / /admin, /home/tos / /tos, /home/privacy / /privacy, /home/team / /team)
+  // Router Path State supporting clean, direct routes:
+  // "/" for Home, "/commands", "/status", "/admin", "/tos", "/privacy", "/team"
   const [currentPath, setCurrentPath] = useState(() => {
-    const p = window.location.pathname;
+    let p = window.location.pathname;
+    if (p.endsWith("/") && p.length > 1) {
+      p = p.slice(0, -1);
+    }
+    if (p === "/home" || p === "") {
+      return "/";
+    }
     if (p === "/home/commands" || p === "/commands") {
-      return "/home/commands";
+      return "/commands";
     }
     if (p === "/home/status" || p === "/status") {
-      return "/home/status";
+      return "/status";
     }
     if (p === "/home/admin" || p === "/admin") {
-      return "/home/admin";
+      return "/admin";
     }
     if (p === "/home/tos" || p === "/tos") {
-      return "/home/tos";
+      return "/tos";
     }
     if (p === "/home/privacy" || p === "/privacy") {
-      return "/home/privacy";
+      return "/privacy";
     }
     if (p === "/home/team" || p === "/team") {
-      return "/home/team";
+      return "/team";
     }
-    return "/home";
+    return "/";
   });
 
   const navigateTo = (path: string) => {
@@ -157,56 +164,69 @@ export default function App() {
   };
 
   useEffect(() => {
-    const p = window.location.pathname;
-    if (p === "/commands") {
-      window.history.replaceState(null, "", "/home/commands");
-      setCurrentPath("/home/commands");
-    } else if (p === "/status") {
-      window.history.replaceState(null, "", "/home/status");
-      setCurrentPath("/home/status");
-    } else if (p === "/admin") {
-      window.history.replaceState(null, "", "/home/admin");
-      setCurrentPath("/home/admin");
-    } else if (p === "/tos") {
-      window.history.replaceState(null, "", "/home/tos");
-      setCurrentPath("/home/tos");
-    } else if (p === "/privacy") {
-      window.history.replaceState(null, "", "/home/privacy");
-      setCurrentPath("/home/privacy");
-    } else if (p === "/team") {
-      window.history.replaceState(null, "", "/home/team");
-      setCurrentPath("/home/team");
+    let p = window.location.pathname;
+    if (p.endsWith("/") && p.length > 1) {
+      p = p.slice(0, -1);
+    }
+
+    if (p === "/home" || p === "") {
+      window.history.replaceState(null, "", "/");
+      setCurrentPath("/");
+    } else if (p === "/home/commands") {
+      window.history.replaceState(null, "", "/commands");
+      setCurrentPath("/commands");
     } else if (p === "/home/status") {
-      setCurrentPath("/home/status");
+      window.history.replaceState(null, "", "/status");
+      setCurrentPath("/status");
     } else if (p === "/home/admin") {
-      setCurrentPath("/home/admin");
+      window.history.replaceState(null, "", "/admin");
+      setCurrentPath("/admin");
     } else if (p === "/home/tos") {
-      setCurrentPath("/home/tos");
+      window.history.replaceState(null, "", "/tos");
+      setCurrentPath("/tos");
     } else if (p === "/home/privacy") {
-      setCurrentPath("/home/privacy");
+      window.history.replaceState(null, "", "/privacy");
+      setCurrentPath("/privacy");
     } else if (p === "/home/team") {
-      setCurrentPath("/home/team");
-    } else if (p !== "/home" && p !== "/home/commands" && p !== "/home/status" && p !== "/home/admin" && p !== "/home/tos" && p !== "/home/privacy" && p !== "/home/team") {
-      window.history.replaceState(null, "", "/home");
-      setCurrentPath("/home");
+      window.history.replaceState(null, "", "/team");
+      setCurrentPath("/team");
+    } else if (p === "/commands") {
+      setCurrentPath("/commands");
+    } else if (p === "/status") {
+      setCurrentPath("/status");
+    } else if (p === "/admin") {
+      setCurrentPath("/admin");
+    } else if (p === "/tos") {
+      setCurrentPath("/tos");
+    } else if (p === "/privacy") {
+      setCurrentPath("/privacy");
+    } else if (p === "/team") {
+      setCurrentPath("/team");
+    } else if (p !== "/") {
+      window.history.replaceState(null, "", "/");
+      setCurrentPath("/");
     }
 
     const handlePopState = () => {
-      const currentP = window.location.pathname;
-      if (currentP === "/home/commands" || currentP === "/commands") {
-        setCurrentPath("/home/commands");
-      } else if (currentP === "/home/status" || currentP === "/status") {
-        setCurrentPath("/home/status");
-      } else if (currentP === "/home/admin" || currentP === "/admin") {
-        setCurrentPath("/home/admin");
-      } else if (currentP === "/home/tos" || currentP === "/tos") {
-        setCurrentPath("/home/tos");
-      } else if (currentP === "/home/privacy" || currentP === "/privacy") {
-        setCurrentPath("/home/privacy");
-      } else if (currentP === "/home/team" || currentP === "/team") {
-        setCurrentPath("/home/team");
+      let currentP = window.location.pathname;
+      if (currentP.endsWith("/") && currentP.length > 1) {
+        currentP = currentP.slice(0, -1);
+      }
+      
+      if (currentP === "/commands" || currentP === "/home/commands") {
+        setCurrentPath("/commands");
+      } else if (currentP === "/status" || currentP === "/home/status") {
+        setCurrentPath("/status");
+      } else if (currentP === "/admin" || currentP === "/home/admin") {
+        setCurrentPath("/admin");
+      } else if (currentP === "/tos" || currentP === "/home/tos") {
+        setCurrentPath("/tos");
+      } else if (currentP === "/privacy" || currentP === "/home/privacy") {
+        setCurrentPath("/privacy");
+      } else if (currentP === "/team" || currentP === "/home/team") {
+        setCurrentPath("/team");
       } else {
-        setCurrentPath("/home");
+        setCurrentPath("/");
       }
     };
     window.addEventListener("popstate", handlePopState);
@@ -236,11 +256,11 @@ export default function App() {
       window.open("https://discord.gg/4QcgStSvex", "_blank");
       triggerToast("Opening support server link...");
     } else if (item === "COMMANDS") {
-      navigateTo("/home/commands");
+      navigateTo("/commands");
       triggerToast("Navigating to Commands...");
     } else if (item === "FAQ") {
-      if (currentPath !== "/home") {
-        navigateTo("/home");
+      if (currentPath !== "/") {
+        navigateTo("/");
         setTimeout(() => {
           const el = document.getElementById("faq-section");
           if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -251,20 +271,20 @@ export default function App() {
       }
       triggerToast("Scrolled to FAQ...");
     } else if (item === "STATS") {
-      navigateTo("/home/status");
+      navigateTo("/status");
       triggerToast("Opening stats dashboard...");
     } else if (item === "TEAM") {
-      navigateTo("/home/team");
+      navigateTo("/team");
       triggerToast("Opening Team Page...");
     } else if (item === "TOS") {
-      navigateTo("/home/tos");
+      navigateTo("/tos");
       triggerToast("Opening Terms of Service...");
     } else if (item === "PRIVACY") {
-      navigateTo("/home/privacy");
+      navigateTo("/privacy");
       triggerToast("Opening Privacy Policy...");
     } else if (item === "HOME") {
-      if (currentPath !== "/home") {
-        navigateTo("/home");
+      if (currentPath !== "/") {
+        navigateTo("/");
       } else {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
@@ -347,14 +367,14 @@ export default function App() {
             QUICK LINKS
           </h4>
           <button 
-            onClick={() => { navigateTo("/home"); triggerToast("Navigated to Home"); }}
+            onClick={() => { navigateTo("/"); triggerToast("Navigated to Home"); }}
             className={`text-left font-sans font-semibold text-sm hover:text-[#b29ced] transition-colors cursor-pointer ${isDarkMode ? "text-zinc-400" : "text-zinc-600"}`}
             id="footer-link-home"
           >
             Home
           </button>
           <button 
-            onClick={() => { navigateTo("/home/commands"); triggerToast("Opening Commands menu..."); }}
+            onClick={() => { navigateTo("/commands"); triggerToast("Opening Commands menu..."); }}
             className={`text-left font-sans font-semibold text-sm hover:text-[#b29ced] transition-colors cursor-pointer ${isDarkMode ? "text-zinc-400" : "text-zinc-600"}`}
             id="footer-link-commands"
           >
@@ -362,7 +382,7 @@ export default function App() {
           </button>
           <button 
             onClick={() => {
-              navigateTo("/home/status");
+              navigateTo("/status");
               triggerToast("Viewing stats dashboard...");
             }}
             className={`text-left font-sans font-semibold text-sm hover:text-[#b29ced] transition-colors cursor-pointer ${isDarkMode ? "text-zinc-400" : "text-zinc-600"}`}
@@ -372,7 +392,7 @@ export default function App() {
           </button>
           <button 
             onClick={() => {
-              navigateTo("/home/team");
+              navigateTo("/team");
               triggerToast("Meet the development team...");
             }}
             className={`text-left font-sans font-semibold text-sm hover:text-[#b29ced] transition-colors cursor-pointer ${isDarkMode ? "text-zinc-400" : "text-zinc-600"}`}
@@ -425,14 +445,14 @@ export default function App() {
             LEGAL
           </h4>
           <button 
-            onClick={() => { navigateTo("/home/tos"); triggerToast("Displaying Terms of Service..."); }}
+            onClick={() => { navigateTo("/tos"); triggerToast("Displaying Terms of Service..."); }}
             className={`text-left font-sans font-semibold text-sm hover:text-[#b29ced] transition-colors cursor-pointer ${isDarkMode ? "text-zinc-400" : "text-zinc-600"}`}
             id="footer-link-tos"
           >
             Terms of Service
           </button>
           <button 
-            onClick={() => { navigateTo("/home/privacy"); triggerToast("Displaying Privacy Policy..."); }}
+            onClick={() => { navigateTo("/privacy"); triggerToast("Displaying Privacy Policy..."); }}
             className={`text-left font-sans font-semibold text-sm hover:text-[#b29ced] transition-colors cursor-pointer ${isDarkMode ? "text-zinc-400" : "text-zinc-600"}`}
             id="footer-link-privacy"
           >
@@ -705,7 +725,7 @@ export default function App() {
 
       {/* MAIN BODY CONTENT */}
       <main className="flex-1 w-full flex flex-col items-center z-10 animate-fade-in pt-20" id="main-content">
-        {currentPath === "/home/commands" ? (
+        {currentPath === "/commands" ? (
           <>
             <CommandsPage 
               isDarkMode={isDarkMode}
@@ -718,7 +738,7 @@ export default function App() {
               {renderFooter()}
             </div>
           </>
-        ) : currentPath === "/home/status" ? (
+        ) : currentPath === "/status" ? (
           <>
             <StatusPage 
               isDarkMode={isDarkMode}
@@ -731,7 +751,7 @@ export default function App() {
               {renderFooter()}
             </div>
           </>
-        ) : currentPath === "/home/admin" ? (
+        ) : currentPath === "/admin" ? (
           <>
             <AdminPage 
               isDarkMode={isDarkMode}
@@ -744,7 +764,7 @@ export default function App() {
               {renderFooter()}
             </div>
           </>
-        ) : currentPath === "/home/tos" ? (
+        ) : currentPath === "/tos" ? (
           <>
             <TosPage 
               isDarkMode={isDarkMode}
@@ -756,7 +776,7 @@ export default function App() {
               {renderFooter()}
             </div>
           </>
-        ) : currentPath === "/home/privacy" ? (
+        ) : currentPath === "/privacy" ? (
           <>
             <PrivacyPage 
               isDarkMode={isDarkMode}
@@ -768,7 +788,7 @@ export default function App() {
               {renderFooter()}
             </div>
           </>
-        ) : currentPath === "/home/team" ? (
+        ) : currentPath === "/team" ? (
           <>
             <TeamPage 
               isDarkMode={isDarkMode}
@@ -1255,7 +1275,7 @@ export default function App() {
             <button 
               onClick={() => handleMenuNavigation("HOME")}
               className={`font-sans font-black text-4xl md:text-5xl tracking-wide hover:text-[#b29ced] transition-colors active:scale-95 ${
-                currentPath === "/home" 
+                currentPath === "/" 
                   ? "text-[#b29ced]" 
                   : (isDarkMode ? "text-white" : "text-zinc-900")
               }`}
@@ -1265,7 +1285,7 @@ export default function App() {
             <button 
               onClick={() => handleMenuNavigation("COMMANDS")}
               className={`font-sans font-black text-4xl md:text-5xl tracking-wide hover:text-[#b29ced] transition-colors active:scale-95 ${
-                currentPath === "/home/commands" 
+                currentPath === "/commands" 
                   ? "text-[#b29ced]" 
                   : (isDarkMode ? "text-white" : "text-zinc-900")
               }`}
@@ -1275,7 +1295,7 @@ export default function App() {
             <button 
               onClick={() => handleMenuNavigation("TEAM")}
               className={`font-sans font-black text-4xl md:text-5xl tracking-wide hover:text-[#b29ced] transition-colors active:scale-95 ${
-                currentPath === "/home/team" 
+                currentPath === "/team" 
                   ? "text-[#b29ced]" 
                   : (isDarkMode ? "text-white" : "text-zinc-900")
               }`}
@@ -1285,7 +1305,7 @@ export default function App() {
             <button 
               onClick={() => handleMenuNavigation("STATS")}
               className={`font-sans font-black text-4xl md:text-5xl tracking-wide hover:text-[#b29ced] transition-colors active:scale-95 ${
-                currentPath === "/home/status" 
+                currentPath === "/status" 
                   ? "text-[#b29ced]" 
                   : (isDarkMode ? "text-white" : "text-zinc-900")
               }`}
@@ -1303,7 +1323,7 @@ export default function App() {
             <button 
               onClick={() => handleMenuNavigation("TOS")}
               className={`font-sans font-black text-4xl md:text-5xl tracking-wide hover:text-[#b29ced] transition-colors active:scale-95 ${
-                currentPath === "/home/tos" 
+                currentPath === "/tos" 
                   ? "text-[#b29ced]" 
                   : (isDarkMode ? "text-white" : "text-zinc-900")
               }`}
@@ -1313,7 +1333,7 @@ export default function App() {
             <button 
               onClick={() => handleMenuNavigation("PRIVACY")}
               className={`font-sans font-black text-4xl md:text-5xl tracking-wide hover:text-[#b29ced] transition-colors active:scale-95 ${
-                currentPath === "/home/privacy" 
+                currentPath === "/privacy" 
                   ? "text-[#b29ced]" 
                   : (isDarkMode ? "text-white" : "text-zinc-900")
               }`}

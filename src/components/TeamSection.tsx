@@ -19,7 +19,7 @@ interface TeamSectionProps {
 
 export default function TeamPage({ isDarkMode, triggerToast, navigateTo, currentPath, t }: TeamSectionProps) {
   const handleBackToHome = () => {
-    navigateTo("/home");
+    navigateTo("/");
     triggerToast(t("backToHome"));
   };
 

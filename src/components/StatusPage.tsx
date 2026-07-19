@@ -223,7 +223,7 @@ export default function StatusPage({
       <div className="w-full max-w-md pt-12 pb-6 flex flex-col text-center items-center" id="status-landing-hero">
         {/* Back to Home Link */}
         <button 
-          onClick={() => navigateTo("/home")}
+          onClick={() => navigateTo("/")}
           className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-[#b29ced] hover:opacity-85 active:scale-95 transition-all mb-8 cursor-pointer"
           id="status-back-to-home"
         >

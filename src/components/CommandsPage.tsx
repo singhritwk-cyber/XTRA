@@ -51,7 +51,7 @@ export default function CommandsPage({
       <div className="w-full max-w-md py-12 flex flex-col text-left border-b border-zinc-900/10 dark:border-zinc-900/40" id="commands-landing-hero">
         {/* Back to Home Link */}
         <button 
-          onClick={() => navigateTo("/home")}
+          onClick={() => navigateTo("/")}
           className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-[#b29ced] hover:opacity-85 active:scale-95 transition-all mb-4 self-start cursor-pointer"
           id="commands-back-to-home"
         >

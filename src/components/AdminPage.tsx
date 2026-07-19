@@ -143,7 +143,7 @@ export default function AdminPage({
       <div className="w-full min-h-[70vh] flex flex-col items-center justify-center px-6 animate-fade-in" id="admin-auth-screen">
         <div className="w-full max-w-md pt-8 pb-4 flex flex-col items-center" id="admin-auth-hero">
           <button 
-            onClick={() => navigateTo("/home/status")}
+            onClick={() => navigateTo("/status")}
             className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-[#b29ced] hover:opacity-85 active:scale-95 transition-all mb-8 cursor-pointer"
             id="auth-back-to-status"
           >
@@ -275,7 +275,7 @@ export default function AdminPage({
       {/* Top Breadcrumb Header and Title */}
       <div className="w-full max-w-md pt-12 pb-6 flex flex-col text-center items-center" id="admin-landing-hero">
         <button 
-          onClick={() => navigateTo("/home/status")}
+          onClick={() => navigateTo("/status")}
           className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-[#b29ced] hover:opacity-85 active:scale-95 transition-all mb-8 cursor-pointer"
           id="admin-back-to-status"
         >

@@ -10,7 +10,7 @@ interface PrivacyPageProps {
 
 export default function PrivacyPage({ isDarkMode, triggerToast, navigateTo, currentPath }: PrivacyPageProps) {
   const handleBackToHome = () => {
-    navigateTo("/home");
+    navigateTo("/");
     triggerToast("Back to Home");
   };
 

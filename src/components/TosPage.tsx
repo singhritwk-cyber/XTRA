@@ -10,7 +10,7 @@ interface TosPageProps {
 
 export default function TosPage({ isDarkMode, triggerToast, navigateTo, currentPath }: TosPageProps) {
   const handleBackToHome = () => {
-    navigateTo("/home");
+    navigateTo("/");
     triggerToast("Back to Home");
   };
 
